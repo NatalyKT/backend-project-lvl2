@@ -14,4 +14,4 @@ Run program:
 
 Example:
 
-[![asciicast](https://asciinema.org/a/vWNV64KHBkWlZVNfqgzXXYXFS.svg)](https://asciinema.org/a/vWNV64KHBkWlZVNfqgzXXYXFS)
+[![asciicast](https://asciinema.org/a/Hqd3lvCK4vtA3u2SuSkHGHkRs.svg)](https://asciinema.org/a/Hqd3lvCK4vtA3u2SuSkHGHkRs)
