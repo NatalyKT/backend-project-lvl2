@@ -7,3 +7,11 @@ Utility features:
 
     -Support for different input formats: yaml, json
     -Generating a report in plain text, stylish and json format 
+
+Run program:
+
+```gendiff <filename 1>.json <filename 2>.json```
+
+Example:
+
+[![asciicast](https://asciinema.org/a/vWNV64KHBkWlZVNfqgzXXYXFS.svg)](https://asciinema.org/a/vWNV64KHBkWlZVNfqgzXXYXFS)
