@@ -3,14 +3,14 @@ import path from 'path';
 import _ from 'lodash';
 
 const getDataFromJson = (filepath) => JSON.parse(fs.readFileSync(path.resolve(process.cwd(), filepath), 'utf-8'));
-/* Было: 
+/* Было:
 const getDataFromJson = (filepath) => JSON.parse(fs.readFileSync(filepath, 'utf-8'));
 Добавлен поиск относит. путей
 */
 
-// Или доработать, или убрать 
-/* 
-const getFullPath = (filepath) => path.resolve(process.cwd(), filepath); 
+// Или доработать, или убрать
+/*
+const getFullPath = (filepath) => path.resolve(process.cwd(), filepath);
 const getFormat = (filepath) => path.extname(filepath).substr(1);
 const readFile = (filepath) => fs.readFileSync(filepath, 'utf-8');
 const parsers = {json: JSON.parse,};
@@ -51,3 +51,5 @@ const showDiff = (filepath1, filepath2) => {
 export { genDiff };
 
 export default showDiff;
+
+export { getDataFromJson };
