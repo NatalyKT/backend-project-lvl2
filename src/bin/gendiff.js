@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import commander from 'commander';
-import compareFiles from '../../index.js';
+import compareFiles from '../index.js';
 
 const program = new commander.Command();
 

@@ -1,11 +1,12 @@
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { genDiff, getDataFromJson } from '../index.js';
+import { genDiff } from '../src/index.js';
+import { getDataFromJson, getDataFromYml } from '../src/parsers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const getPathToFile = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 const expectedValue = () => `{
 - follow: false
@@ -17,7 +18,13 @@ const expectedValue = () => `{
 }`;
 
 test('genDiffForJson', () => {
-  const data1 = getDataFromJson(getPathToFile('file1.json'));
-  const data2 = getDataFromJson(getPathToFile('file2.json'));
+  const data1 = getDataFromJson(getFixturePath('file1.json'));
+  const data2 = getDataFromJson(getFixturePath('file2.json'));
+  expect(genDiff(data1, data2)).toEqual(expectedValue());
+});
+
+test('genDiffForYml', () => {
+  const data1 = getDataFromYml(getFixturePath('file1.yml'));
+  const data2 = getDataFromYml(getFixturePath('file2.yml'));
   expect(genDiff(data1, data2)).toEqual(expectedValue());
 });
