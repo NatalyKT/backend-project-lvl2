@@ -11,9 +11,11 @@ const getDataFromJson = (filepath) => JSON.parse(fs.readFileSync(path.resolve(pr
 // eslint: Function yaml.safeLoad is removed in js-yaml 4.
 // Use yaml.load instead, which is now safe by default.
 const getDataFromYml = (filepath) => yaml.load(fs.readFileSync(filepath, 'utf-8'));
+const getDataFromYaml = (filepath) => yaml.load(fs.readFileSync(filepath, 'utf-8'));
 
 export { getDataFromJson };
 export { getDataFromYml };
+export { getDataFromYaml };
 
 // Или доработать, или убрать
 /*
