@@ -1,47 +1,50 @@
-import path, { dirname, resolve } from 'path';
-import { fileURLToPath } from 'url';
+import { test, expect, describe } from '@jest/globals';
+import path from 'path';
 import fs from 'fs';
-import { readFileSync } from 'fs';
-import { genDiff } from '../src/index.js';
-import { getDataFromJson, getDataFromYml } from '../src/parsers.js';
+import { fileURLToPath } from 'url';
+import genDiff from '../src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = path.dirname(__filename);
 
-const getFixturePath = (filename) => resolve(__dirname, '..', '__fixtures__', filename);
+const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const readFixture = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8').trim();
 
-const extensions = ['json', , 'yaml', 'yml'];
-const formats = ['stylish'];
+const outputFormats = ['stylish', 'plain', 'json'];
+const extensions = [
+  ['json', 'json'],
+  ['yml', 'yml'],
+  ['yaml', 'yaml'],
+];
 
+// или: вариант "многосторонней" проверки
 /*
-test('genDiffForJson', () => {
-  const data1 = getDataFromJson(getFixturePath('file1.json'));
-  const data2 = getDataFromJson(getFixturePath('file2.json'));
-  expect(genDiff(data1, data2)).toEqual(expectedValue());
-});
+const extensions = [
+  ['json', 'json'],
+  ['yml', 'yml'],
+  ['yaml', 'yaml'],
 
-test('genDiffForYml', () => {
-  const data1 = getDataFromYml(getFixturePath('file1.yml'));
-  const data2 = getDataFromYml(getFixturePath('file2.yml'));
-  expect(genDiff(data1, data2)).toEqual(expectedValue());
-});
+  ['json', 'yml'],
+  ['json', 'yaml'],
+
+  ['yml', 'json'],
+  ['yaml', 'json'],
+];
 */
-let expectedResult;
 
-beforeAll(() => {
-  expectedResult = {
-    stylish: readFileSync(getFixturePath('expectedNestedJson.txt'), 'utf-8'),
-    /*
-    plain: readFileSync(getFixturePath('expectedPlainFormat.txt'), 'utf-8'),
-    json: readFileSync(getFixturePath('expectedJsonFormat.txt'), 'utf-8'),
-    */
-  };
-});
+describe('genDiff', () => {
+  outputFormats.forEach((outputFormat) => {
+    describe(`${outputFormat} format`, () => {
+      extensions.forEach(([fileExt1, fileExt2]) => {
+        const result = readFixture(`expected_${outputFormat}.txt`);
 
-describe.each(extensions)('gendiff %s file', (extension) => {
-  test.each(formats)('%s format result', (format) => {
-    const path1 = getFixturePath(`file1.${extension}`);
-    const path2 = getFixturePath(`file2.${extension}`);
-    expect(genDiff(path1, path2, format)).toEqual(expectedResult[format]);
+        test(`Should return correct diff between *.${fileExt1} *.${fileExt2} files`, () => {
+          const filePath1 = getFixturePath(`file1.${fileExt1}`);
+          const filePath2 = getFixturePath(`file2.${fileExt2}`);
+
+          expect(genDiff(filePath1, filePath2, outputFormat)).toBe(result);
+        });
+      });
+    });
   });
 });

@@ -1,36 +1,62 @@
 import _ from 'lodash';
 
-const gap = (level) => '  '.repeat(level);
+const signs = {
+  added: '+ ',
+  removed: '- ',
+  unchanged: '  ',
+};
 
-const formatValue = (value, level) => {
-  if (!_.isObject(value)) {
-    return value;
+const indent = (spacesCount) => ' '.repeat(spacesCount);
+
+const stringify = (data, depth, space) => {
+  if (!_.isObject(data)) {
+    return data;
   }
-  const keys = Object.keys(value);
-  const formatedValue = keys.map((key) => `${key}: ${formatValue(value[key], level + 2)}`);
-  return `{\n${gap(level + 3)}${formatedValue.join(`\n${gap(level + 3)}`)}\n${gap(level + 1)}}`;
+
+  const fields = Object.entries(data)
+    .map(([key, value]) => `${indent((depth + 1) * space)}${key}: ${stringify(value, depth + 1, space)}`)
+    .join('\n');
+
+  return `{\n${fields}\n${indent(depth * space)}}`;
 };
 
-const stylishFormat = (diff) => {
-  const dataFormat = (data, level = 1) => data.map(({
-    key, type, sameValue, oldValue, newValue, objects,
-  }) => {
-    switch (type) {
-      case 'added':
-        return `${gap(level)}+ ${key}: ${formatValue(newValue, level)}`;
-      case 'changed':
-        return `${gap(level)}- ${key}: ${formatValue(oldValue, level)}\n${gap(level)}+ ${key}: ${formatValue(newValue, level)}`;
-      case 'deleted':
-        return `${gap(level)}- ${key}: ${formatValue(oldValue, level)}`;
-      case 'tree':
-        return `${gap(level + 1)}${key}: {\n${dataFormat(objects, level + 2)}\n${gap(level + 1)}}`;
-      case 'unchanged':
-        return `${gap(level)}  ${key}: ${formatValue(sameValue, level)}`;
-      default:
-        throw new Error(`${type} is unknown type!`);
-    }
-  }).join('\n');
-  return `{\n${dataFormat(diff)}\n}`;
+const stylishFormat = {
+  root: ({ children }, depth, space, stylish) => {
+    const fields = children
+      .flatMap((node) => stylishFormat[node.type](node, depth + 1, space, stylish))
+      .join('\n');
+
+    return `{\n${fields}\n}`;
+  },
+
+  object: ({ key, children }, depth, space, stylish) => {
+    const fields = children
+      .flatMap((node) => stylishFormat[node.type](node, depth + 1, space, stylish))
+      .join('\n');
+
+    return `${indent(depth * space)}${key}: {\n${fields}\n${indent(depth * space)}}`;
+  },
+
+  added: ({ key, value }, depth, space) => (
+    `${indent(depth * space - signs.added.length)}${signs.added}${key}: ${stringify(value, depth, space)}`
+  ),
+
+  removed: ({ key, value }, depth, space) => (
+    `${indent(depth * space - signs.removed.length)}${signs.removed}${key}: ${stringify(value, depth, space)}`
+  ),
+
+  changed: ({ key, value1, value2 }, depth, space) => {
+    const field1 = `${indent(depth * space - signs.removed.length)}${signs.removed}${key}: ${stringify(value1, depth, space)}`;
+    const field2 = `${indent(depth * space - signs.added.length)}${signs.added}${key}: ${stringify(value2, depth, space)}`;
+
+    return [field1, field2];
+  },
+
+  unchanged: ({ key, value }, depth, space) => (
+    `${indent(depth * space - signs.unchanged.length)}${signs.unchanged}${key}: ${stringify(value, depth, space)}`
+  ),
 };
 
-export default stylishFormat;
+const stylish = (node, depth, space) => stylishFormat[node.type](node, depth, space, stylish);
+const makeStylish = (diff) => stylish(diff, 0, 4);
+export default makeStylish;
