@@ -26,6 +26,7 @@ An example of comparing yml-files:
 [![asciicast](https://asciinema.org/a/X6xMTSOTEWCeyAUTGcg0cCZBa.svg)](https://asciinema.org/a/X6xMTSOTEWCeyAUTGcg0cCZBa)
 
 An example of comparing two files in different formats:
+
 #### Stylish Format
 
 ```sh
@@ -35,15 +36,19 @@ $ gendiff -f stylish filePath1.json filePath2.json
 [![asciicast](https://asciinema.org/a/kFEMTVqKORwT23Fv1Xzapth3g.svg)](https://asciinema.org/a/kFEMTVqKORwT23Fv1Xzapth3g)
 
 #### Plain Format
+
 ```sh
 $ gendiff -f plain filePath1.json filePath2.json
 ```
+
 [![asciicast](https://asciinema.org/a/ujEH7qHrhQvtCjngFnlDCb5Mz.svg)](https://asciinema.org/a/ujEH7qHrhQvtCjngFnlDCb5Mz)
 
 #### JSON Format
+
 ```sh
 $ gendiff -f json filePath1.json filePath2.json
 ```
+
 [![asciicast](https://asciinema.org/a/7rHiej9nlsnesskAN5mwzMLCK.svg)](https://asciinema.org/a/7rHiej9nlsnesskAN5mwzMLCK)
 
 ### Run tests
@@ -51,4 +56,5 @@ $ gendiff -f json filePath1.json filePath2.json
 ```sh
 $ make test
 ```
+
 [![asciicast](https://asciinema.org/a/ZJImU7ndq34Y3JL5dJYAGruUT.svg)](https://asciinema.org/a/ZJImU7ndq34Y3JL5dJYAGruUT)
