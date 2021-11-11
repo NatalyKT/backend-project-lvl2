@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "type": "module",
-  "description": "[![Actions Status](https://github.com/NatalyKT/backend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/NatalyKT/backend-project-lvl2/actions)",
+  "description": "'Difference calculator': program that determines the difference between two data structures.",
   "main": "src/index.js",
   "scripts": {
     "test": "npx -n --experimental-vm-modules jest"
@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/NatalyKT/backend-project-lvl2#readme",
   "dependencies": {
-    "@jest/globals": "^27.3.1",
     "commander": "^8.2.0",
     "dirname": "^0.1.0",
     "file-system": "^1.2.2",
