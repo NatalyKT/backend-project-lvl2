@@ -9,11 +9,9 @@ const parsers = {
 
 const parser = (data, format) => {
   const parse = parsers[format];
-  if (!parse) {
-    throw new Error(`${format} is unknown data format`);
-  }
   return parse(data);
 };
+
 export default parser;
 
 // вариант с lodash:
