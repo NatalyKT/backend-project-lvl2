@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-commented-out-tests */
 import { test, expect, describe } from '@jest/globals';
 import path from 'path';
 import fs from 'fs';
@@ -33,44 +32,3 @@ describe.each(formats)('Test genDiff', (format) => {
     expect(() => { JSON.parse(genDiff(path1, path2, 'json')); }).not.toThrow();
   });
 });
-
-/*
-const outputFormats = ['stylish', 'plain', 'json'];
-const extensions = [
-  ['json', 'json'],
-  ['yml', 'yml'],
-  ['yaml', 'yaml'],
-];
-*/
-// или: вариант "многосторонней" проверки
-/*
-const extensions = [
-  ['json', 'json'],
-  ['yml', 'yml'],
-  ['yaml', 'yaml'],
-
-  ['json', 'yml'],
-  ['json', 'yaml'],
-
-  ['yml', 'json'],
-  ['yaml', 'json'],
-];
-
-describe('genDiff', () => {
-  outputFormats.forEach((outputFormat) => {
-    describe(`${outputFormat} format`, () => {
-      extensions.forEach(([fileExt1, fileExt2]) => {
-        const result = readFixture(`expected_${outputFormat}.txt`);
-
-        test(`Should return correct diff between *.${fileExt1} *.${fileExt2} files`, () => {
-          const filePath1 = getFixturePath(`file1.${fileExt1}`);
-          const filePath2 = getFixturePath(`file2.${fileExt2}`);
-
-          expect(genDiff(filePath1, filePath2, outputFormat)).toBe(result);
-        });
-      });
-    });
-  });
-});
-
-*/
