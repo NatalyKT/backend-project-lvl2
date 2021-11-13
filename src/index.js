@@ -9,7 +9,7 @@ const buildTree = (data1, data2) => {
   const allSortedKeys = _.sortBy(keys);
 
   const result = allSortedKeys.map((key) => {
-    if (!_.has(data1, key) /* && _.has(data2, key) */) {
+    if (!_.has(data1, key)) {
       return {
         key,
         type: 'added',
@@ -63,19 +63,16 @@ const showDiff = (filePath1, filePath2, outputFormat = 'stylish') => {
   const dataOfFile1 = fs.readFileSync(getFullPath(filePath1), 'utf-8');
   const dataOfFile2 = fs.readFileSync(getFullPath(filePath2), 'utf-8');
 
-  const dataTypeOfFile1 = path.extname(getFullPath(filePath1)).replace('.', '');
-  const dataTypeOfFile2 = path.extname(getFullPath(filePath2)).replace('.', '');
+  const dataTypeName1 = path.extname(getFullPath(filePath1)).replace('.', '');
+  const dataTypeName2 = path.extname(getFullPath(filePath2)).replace('.', '');
 
-  const parsedData1 = parse(dataOfFile1, dataTypeOfFile1);
-  const parsedData2 = parse(dataOfFile2, dataTypeOfFile2);
+  const parsedData1 = parse(dataOfFile1, dataTypeName1);
+  const parsedData2 = parse(dataOfFile2, dataTypeName2);
 
   const formattedDiff = genDiff(parsedData1, parsedData2);
   const diff = format(formattedDiff, outputFormat);
 
   return diff;
-
-  // или:
-  // return format(genDiff(parsedData1, parsedData2), outputFormat);
 };
 
 export default showDiff;

@@ -1,4 +1,3 @@
-// import _ from 'lodash';
 import yaml from 'js-yaml';
 
 const parsers = {
@@ -13,15 +12,3 @@ const parser = (data, format) => {
 };
 
 export default parser;
-
-// вариант с lodash:
-/*
-const parser = (data, format) => {
-  if (!_.has(parsers, format)) {
-    throw new Error(`${format} is unknown data format.`);
-  }
-  const parse = parsers[format];
-  return parse(data);
-};
-export default parser;
-*/
