@@ -56,5 +56,5 @@ $ gendiff -f json filePath1.json filePath2.json
 ```sh
 $ make test
 ```
-//
+
 [![asciicast](https://asciinema.org/a/ZJImU7ndq34Y3JL5dJYAGruUT.svg)](https://asciinema.org/a/ZJImU7ndq34Y3JL5dJYAGruUT)
